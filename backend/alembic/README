@@ -1,0 +1,7 @@
+Async Alembic environment for Commitly.
+
+Generate a migration:
+    alembic revision --autogenerate -m "message"
+
+Apply migrations:
+    alembic upgrade head
