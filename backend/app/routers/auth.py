@@ -2,7 +2,13 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.database import get_db
-from app.schemas.auth import LoginRequest, RegisterRequest, TokenResponse
+from app.dependencies import CurrentUser
+from app.schemas.auth import (
+    LoginRequest,
+    RegisterRequest,
+    TokenResponse,
+    UserResponse,
+)
 from app.services import auth_service
 
 router = APIRouter(prefix="/auth", tags=["auth"])
@@ -22,6 +28,11 @@ async def register(
             detail="Email already registered",
         )
     return TokenResponse(access_token=auth_service.create_access_token(user.id))
+
+
+@router.get("/me", response_model=UserResponse)
+async def me(current_user: CurrentUser) -> UserResponse:
+    return UserResponse.model_validate(current_user)
 
 
 @router.post("/login", response_model=TokenResponse)
