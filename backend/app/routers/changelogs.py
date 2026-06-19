@@ -13,6 +13,7 @@ from app.schemas.changelog import (
     ChangelogUpdate,
 )
 from app.services import changelog_service, project_service
+from app.services.llm_service import LLMError
 
 router = APIRouter(tags=["changelogs"])
 
@@ -53,9 +54,15 @@ async def generate_changelog(
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Project not found"
         )
-    changelog = await changelog_service.generate_changelog(
-        db, project, body.raw_input, body.tone.value, body.version_tag
-    )
+    try:
+        changelog = await changelog_service.generate_changelog(
+            db, project, body.raw_input, body.tone.value, body.version_tag
+        )
+    except LLMError:
+        raise HTTPException(
+            status_code=status.HTTP_502_BAD_GATEWAY,
+            detail="Changelog generation failed, please try again",
+        )
     return ChangelogResponse.model_validate(changelog)
 
 

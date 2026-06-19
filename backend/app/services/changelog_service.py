@@ -5,19 +5,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models import Changelog, Project
-
-
-def _stub_generate(raw_input: str, tone: str, version_tag: str | None) -> str:
-    """Placeholder generation. Replaced by llm_service in Phase 3."""
-    heading = version_tag or "Unreleased"
-    return (
-        f"# {heading}\n\n"
-        f"_Generated with the `{tone}` tone (stub)._\n\n"
-        "## Added\n"
-        "- Placeholder entry generated from the provided input.\n\n"
-        "## Changed\n"
-        "- Hardcoded changelog — real LLM output arrives in Phase 3.\n"
-    )
+from app.services import llm_service
 
 
 async def list_changelogs(
@@ -39,7 +27,7 @@ async def generate_changelog(
     tone: str,
     version_tag: str | None,
 ) -> Changelog:
-    content = _stub_generate(raw_input, tone, version_tag)
+    content = await llm_service.generate_changelog(raw_input, tone, version_tag)
     title = version_tag or "Changelog"
     changelog = Changelog(
         project_id=project.id,
