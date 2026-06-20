@@ -28,7 +28,6 @@ export function Generate() {
     setError(null);
     setGenerating(true);
     try {
-      // Discard the previous auto-generated draft when regenerating.
       if (current) {
         await changelogsApi.deleteChangelog(current.id);
       }
@@ -61,78 +60,78 @@ export function Generate() {
     }
   };
 
-  const handleExport = () => {
-    downloadMarkdown(title || "changelog", content);
-  };
+  const inputClass =
+    "rounded-md border border-line bg-surface px-3 py-2 text-ink outline-none transition focus:border-git focus-visible:ring-2 focus-visible:ring-git/30";
 
   return (
     <Layout>
       <button
         onClick={() => navigate(`/projects/${projectId}`)}
-        className="mb-2 text-sm text-gray-500 hover:underline"
+        className="mb-4 font-mono text-xs text-muted transition hover:text-ink"
       >
-        ← Back to project
+        ← project
       </button>
-      <h1 className="mb-6 text-2xl font-semibold text-gray-900">
+      <h1 className="mb-1 font-display text-3xl font-semibold tracking-tight text-ink">
         Generate changelog
       </h1>
+      <p className="mb-6 text-sm text-muted">
+        Paste a git log or diff and pick a tone.
+      </p>
 
       {error && (
-        <div className="mb-4 rounded-md bg-red-50 px-3 py-2 text-sm text-red-700">
+        <div className="mb-4 rounded-md border border-remove/30 bg-remove/10 px-3 py-2 text-sm text-remove">
           {error}
         </div>
       )}
 
-      <div className="space-y-4 rounded-xl border border-gray-200 bg-white p-5">
-        <div className="space-y-1">
-          <label className="text-sm font-medium text-gray-700">
+      <div className="space-y-4 rounded-lg border border-line bg-surface p-5">
+        <div className="space-y-1.5">
+          <label className="font-mono text-xs uppercase tracking-wide text-muted">
             Commits or diff
           </label>
           <textarea
             value={rawInput}
             onChange={(e) => setRawInput(e.target.value)}
             rows={8}
-            placeholder="Paste your git commits or diff here…"
-            className="w-full resize-y rounded-md border border-gray-300 px-3 py-2 font-mono text-sm focus:border-indigo-500 focus:outline-none"
+            placeholder="feat: add login&#10;fix: handle expired token&#10;…"
+            className={`${inputClass} w-full resize-y bg-paper font-mono text-sm`}
           />
         </div>
 
         <div className="flex flex-wrap items-end gap-4">
-          <div className="space-y-1">
-            <label className="text-sm font-medium text-gray-700">Tone</label>
+          <div className="space-y-1.5">
+            <label className="font-mono text-xs uppercase tracking-wide text-muted">
+              Tone
+            </label>
             <select
               value={tone}
               onChange={(e) => setTone(e.target.value as Tone)}
-              className="rounded-md border border-gray-300 px-3 py-2 focus:border-indigo-500 focus:outline-none"
+              className={inputClass}
             >
               <option value="technical">Technical</option>
               <option value="user_friendly">User-friendly</option>
             </select>
           </div>
 
-          <div className="space-y-1">
-            <label className="text-sm font-medium text-gray-700">
-              Version tag <span className="text-gray-400">(optional)</span>
+          <div className="space-y-1.5">
+            <label className="font-mono text-xs uppercase tracking-wide text-muted">
+              Version
             </label>
             <input
               type="text"
               value={versionTag}
               onChange={(e) => setVersionTag(e.target.value)}
               placeholder="v1.0.0"
-              className="rounded-md border border-gray-300 px-3 py-2 focus:border-indigo-500 focus:outline-none"
+              className={`${inputClass} w-32 font-mono`}
             />
           </div>
 
           <button
             onClick={handleGenerate}
             disabled={generating || !rawInput.trim()}
-            className="ml-auto rounded-md bg-indigo-600 px-5 py-2 font-medium text-white hover:bg-indigo-700 disabled:opacity-50"
+            className="ml-auto rounded-md bg-git px-5 py-2 font-medium text-white transition hover:bg-git-hover disabled:opacity-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-git/50"
           >
-            {generating
-              ? "Generating…"
-              : current
-                ? "Regenerate"
-                : "Generate"}
+            {generating ? "Generating…" : current ? "Regenerate" : "Generate"}
           </button>
         </div>
       </div>
@@ -147,15 +146,15 @@ export function Generate() {
             actions={
               <>
                 <button
-                  onClick={handleExport}
-                  className="rounded-md border border-gray-300 px-4 py-2 text-sm hover:bg-gray-100"
+                  onClick={() => downloadMarkdown(title || "changelog", content)}
+                  className="rounded-md border border-line px-4 py-2 text-sm text-muted transition hover:text-ink"
                 >
                   Export .md
                 </button>
                 <button
                   onClick={handleSave}
                   disabled={saving}
-                  className="rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 disabled:opacity-50"
+                  className="rounded-md bg-git px-4 py-2 text-sm font-medium text-white transition hover:bg-git-hover disabled:opacity-50"
                 >
                   {saving ? "Saving…" : "Save to project"}
                 </button>
