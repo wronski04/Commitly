@@ -1,6 +1,8 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { ProtectedRoute } from "./components/ProtectedRoute";
+import { ChangelogDetail } from "./pages/ChangelogDetail";
 import { Dashboard } from "./pages/Dashboard";
+import { Generate } from "./pages/Generate";
 import { Login } from "./pages/Login";
 import { ProjectDetail } from "./pages/ProjectDetail";
 import { Register } from "./pages/Register";
@@ -26,6 +28,22 @@ function App() {
             element={
               <ProtectedRoute>
                 <ProjectDetail />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/projects/:id/generate"
+            element={
+              <ProtectedRoute>
+                <Generate />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/changelogs/:id"
+            element={
+              <ProtectedRoute>
+                <ChangelogDetail />
               </ProtectedRoute>
             }
           />

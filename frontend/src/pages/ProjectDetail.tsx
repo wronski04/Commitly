@@ -93,7 +93,11 @@ export function ProjectDetail() {
             </thead>
             <tbody>
               {changelogs.map((c) => (
-                <tr key={c.id} className="border-b last:border-0">
+                <tr
+                  key={c.id}
+                  onClick={() => navigate(`/changelogs/${c.id}`)}
+                  className="cursor-pointer border-b last:border-0 hover:bg-gray-50"
+                >
                   <td className="px-4 py-2 text-gray-900">{c.title}</td>
                   <td className="px-4 py-2 text-gray-600">
                     {TONE_LABELS[c.tone] ?? c.tone}
