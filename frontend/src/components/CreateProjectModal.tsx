@@ -35,50 +35,55 @@ export function CreateProjectModal({
     }
   };
 
+  const inputClass =
+    "w-full rounded-md border border-line bg-paper px-3 py-2 text-ink outline-none transition focus:border-git focus-visible:ring-2 focus-visible:ring-git/30";
+
   return (
     <Modal title="New project" onClose={onClose}>
       <form onSubmit={handleSubmit} className="space-y-4">
         {error && (
-          <div className="rounded-md bg-red-50 px-3 py-2 text-sm text-red-700">
+          <div className="rounded-md border border-remove/30 bg-remove/10 px-3 py-2 text-sm text-remove">
             {error}
           </div>
         )}
-        <div className="space-y-1">
-          <label className="text-sm font-medium text-gray-700">Name</label>
+        <div className="space-y-1.5">
+          <label className="font-mono text-xs uppercase tracking-wide text-muted">
+            Name
+          </label>
           <input
             type="text"
             required
             autoFocus
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-indigo-500 focus:outline-none"
+            className={inputClass}
           />
         </div>
-        <div className="space-y-1">
-          <label className="text-sm font-medium text-gray-700">
-            Description <span className="text-gray-400">(optional)</span>
+        <div className="space-y-1.5">
+          <label className="font-mono text-xs uppercase tracking-wide text-muted">
+            Description <span className="lowercase text-muted/70">(optional)</span>
           </label>
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             rows={3}
-            className="w-full resize-none rounded-md border border-gray-300 px-3 py-2 focus:border-indigo-500 focus:outline-none"
+            className={`${inputClass} resize-none`}
           />
         </div>
-        <div className="flex justify-end gap-2">
+        <div className="flex justify-end gap-2 pt-1">
           <button
             type="button"
             onClick={onClose}
-            className="rounded-md border border-gray-300 px-4 py-2 text-sm hover:bg-gray-100"
+            className="rounded-md border border-line px-4 py-2 text-sm text-muted transition hover:text-ink"
           >
             Cancel
           </button>
           <button
             type="submit"
             disabled={submitting}
-            className="rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 disabled:opacity-50"
+            className="rounded-md bg-git px-4 py-2 text-sm font-medium text-white transition hover:bg-git-hover disabled:opacity-50"
           >
-            {submitting ? "Creating…" : "Create"}
+            {submitting ? "Creating…" : "Create project"}
           </button>
         </div>
       </form>

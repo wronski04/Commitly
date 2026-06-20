@@ -55,7 +55,7 @@ export function ChangelogDetail() {
   if (loading) {
     return (
       <Layout>
-        <p className="text-gray-500">Loading…</p>
+        <p className="font-mono text-sm text-muted">Loading…</p>
       </Layout>
     );
   }
@@ -63,7 +63,7 @@ export function ChangelogDetail() {
   if (error && !title) {
     return (
       <Layout>
-        <p className="text-red-600">{error}</p>
+        <p className="text-sm text-remove">{error}</p>
       </Layout>
     );
   }
@@ -72,14 +72,16 @@ export function ChangelogDetail() {
     <Layout>
       <button
         onClick={() => projectId && navigate(`/projects/${projectId}`)}
-        className="mb-2 text-sm text-gray-500 hover:underline"
+        className="mb-4 font-mono text-xs text-muted transition hover:text-ink"
       >
-        ← Back to project
+        ← project
       </button>
-      <h1 className="mb-6 text-2xl font-semibold text-gray-900">Changelog</h1>
+      <h1 className="mb-6 font-display text-3xl font-semibold tracking-tight text-ink">
+        Changelog
+      </h1>
 
       {error && (
-        <div className="mb-4 rounded-md bg-red-50 px-3 py-2 text-sm text-red-700">
+        <div className="mb-4 rounded-md border border-remove/30 bg-remove/10 px-3 py-2 text-sm text-remove">
           {error}
         </div>
       )}
@@ -93,20 +95,20 @@ export function ChangelogDetail() {
           <>
             <button
               onClick={handleDelete}
-              className="mr-auto rounded-md border border-red-300 px-4 py-2 text-sm text-red-600 hover:bg-red-50"
+              className="mr-auto rounded-md border border-remove/40 px-4 py-2 text-sm text-remove transition hover:bg-remove/10"
             >
               Delete
             </button>
             <button
               onClick={() => downloadMarkdown(title || "changelog", content)}
-              className="rounded-md border border-gray-300 px-4 py-2 text-sm hover:bg-gray-100"
+              className="rounded-md border border-line px-4 py-2 text-sm text-muted transition hover:text-ink"
             >
               Export .md
             </button>
             <button
               onClick={handleSave}
               disabled={saving}
-              className="rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 disabled:opacity-50"
+              className="rounded-md bg-git px-4 py-2 text-sm font-medium text-white transition hover:bg-git-hover disabled:opacity-50"
             >
               {saving ? "Saving…" : "Save"}
             </button>

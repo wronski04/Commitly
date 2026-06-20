@@ -1,3 +1,51 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --paper: #fcfcfd;
+  --surface: #ffffff;
+  --ink: #16181d;
+  --muted: #5b616e;
+  --line: #e6e8ec;
+  --git: #ee5a2a;
+  --git-hover: #d84a1e;
+  --add: #2ea043;
+  --remove: #cf222e;
+}
+
+.dark {
+  --paper: #0d0f14;
+  --surface: #161920;
+  --ink: #e8eaed;
+  --muted: #9098a4;
+  --line: #262a33;
+  --git: #ff6a3d;
+  --git-hover: #ff7e54;
+  --add: #3fb950;
+  --remove: #f85149;
+}
+
+@layer base {
+  body {
+    @apply bg-paper font-sans text-ink antialiased;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply font-display;
+  }
+
+  ::selection {
+    background: var(--git);
+    color: #fff;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
